@@ -8,7 +8,7 @@ class Player extends React.Component {
 
 		this.state = {
 			muted: false,
-			ytVideoSrc: "https://www.youtube.com/embed/m7mvpe1fVa4?autoplay=1",
+			ytVideoSrc: null,
 			socket: null
 		};
 
@@ -19,6 +19,7 @@ class Player extends React.Component {
 	componentDidMount() {
 		var socket = io("/");
 		this.setState({ socket });
+		this.updateytSrc();
 		socket.on("connect", () => console.log("Socket connected"));
 		socket.on("changeSong", (data) => {
 			let { ytVideoSrc } = data;
@@ -41,7 +42,7 @@ class Player extends React.Component {
 		})
 		.then((json) => {
 			let { ytVideoSrc } = json
-			this.setState({ ytVideoSrc: ytVideoSrc });
+			this.setState({ ytVideoSrc });
 		});
 	}
 

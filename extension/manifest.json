@@ -14,7 +14,7 @@
   "content_scripts": [
     {
       "matches": ["*://*.youtube.com/*"],
-      "js": ["scrape_video.js"],
+      "js": ["output/scrape_build.js"],
       "run_at": "document_start"
     }
   ],

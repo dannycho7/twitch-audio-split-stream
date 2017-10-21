@@ -28,9 +28,9 @@ class Player extends React.Component {
 			return res.json();
 		})
 		.then((json) => {
-			console.log(json);
+			let { ytVideoSrc } = json
+			this.setState({ ytVideoSrc: ytVideoSrc });
 		});
-		this.setState({ ytVideoSrc: "https://www.youtube.com/embed/m7mvpe1fVa4?autoplay=1&start=100" })
 	}
 
 	render() {

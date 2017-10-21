@@ -14,10 +14,6 @@ app.use(function(req, res, next) {
 app.use(express.static(path.join(__dirname, "static")));
 app.use(bodyParser.json());
 
-app.get("/current", (req, res) => {
-	res.json({ ytVideoSrc: "https://www.youtube.com/embed/m7mvpe1fVa4?autoplay=1&start=100"});
-});
-
 app.post("/change", (req, res) => {
 	const { ytVideoSrc } = req.body;
 	io.sockets.emit("changeSong", { ytVideoSrc });
@@ -26,6 +22,11 @@ app.post("/change", (req, res) => {
 
 io.on("connection", function (socket) {
 	console.log("A client has connected");
+	socket.on("request_current", (data, cb) => {
+		console.log("Received request");
+		cb({ ytVideoSrc: "https://www.youtube.com/embed/m7mvpe1fVa4?autoplay=1&start=100" })
+	});
+	// socket.on("respond_current", (data) => console.log(data));
 });
 
 server.listen(5000, () => console.log("Server listening in on port 5000"));

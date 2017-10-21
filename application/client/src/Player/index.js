@@ -18,8 +18,7 @@ class Player extends React.Component {
 
 	componentDidMount() {
 		var socket = io("/");
-		this.setState({ socket });
-		this.updateytSrc();
+		this.setState({ socket }, this.updateytSrc);
 		socket.on("connect", () => console.log("Socket connected"));
 		socket.on("changeSong", (data) => {
 			if(!this.state.muted) {
@@ -38,12 +37,8 @@ class Player extends React.Component {
 	}
 
 	updateytSrc() {
-		fetch("/current")
-		.then((res) => {
-			return res.json();
-		})
-		.then((json) => {
-			let { ytVideoSrc } = json
+		this.state.socket.emit("request_current", {}, (data) => {
+			let { ytVideoSrc } = data;
 			this.setState({ ytVideoSrc });
 		});
 	}

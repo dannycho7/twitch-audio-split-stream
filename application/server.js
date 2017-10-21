@@ -5,6 +5,8 @@ const bodyParser = require("body-parser");
 const express = require("express");
 const request = require("request");
 const app = express();
+const port = process.env.PORT || 5000;
+
 var server = require("http").Server(app);
 var io = require('socket.io')(server);
 
@@ -73,4 +75,4 @@ io.on("connection", function (socket) {
 	});
 });
 
-server.listen(5000, () => console.log("Server listening in on port 5000"));
+server.listen(port, () => console.log("Server listening in on port", port));

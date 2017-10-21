@@ -17,12 +17,12 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
 	console.log("Received message");
 	let xhttp = new XMLHttpRequest();
 	xhttp.addEventListener("load", () => {});
-	xhttp.open("POST", "http://localhost:5000/change");
+	xhttp.open("POST", "https://twitch-con.herokuapp.com/change");
 	xhttp.setRequestHeader("Content-Type", "application/json");
 	xhttp.send(JSON.stringify(message))
 });
 
-var socket = io('http://localhost:5000');
+var socket = io('https://twitch-con.herokuapp.com/');
 socket.on('connect', function(){ socket.emit("set_streamer_socket") });
 socket.on('server_request_current', function(data, cb){
 	console.log("Server received request for current song");

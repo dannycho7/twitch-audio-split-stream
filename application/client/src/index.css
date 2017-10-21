@@ -1,10 +1,74 @@
+@import url(https://fonts.googleapis.com/css?family=Raleway:300);
+
 body {
-  margin: 0;
-  padding: 0;
-  font-family: sans-serif;
+	background: #6441A4;
+	color: white;
+	margin: 15px;
+	padding: 0;
+	font-family: sans-serif;
 }
 
 #twitch-embed {
-	margin: 0 auto;
+	margin-bottom: 5px;
 	display: inline-block;
+}
+
+#songTitle {
+	margin-left: 15px;
+}
+
+#muteButton {
+	background: #333;
+	color: #ccc;
+	width: 150px;
+	height: 45px;
+	border: 0;
+	font-size: 18px;
+	border-radius: 4px;
+	font-family: 'Raleway', sans-serif;
+	transition: .6s;
+	overflow: hidden;
+}
+#muteButton:focus{
+	outline: 0;
+}
+#muteButton:before{
+	content: '';
+	display: block;
+	position: absolute;
+	background: rgba(255,255,255,0.5);
+	width: 60px;
+	height: 100px;
+	left: 0;
+	bottom: 0;
+	opacity: .5;
+	filter: blur(30px);
+	transform: translateX(-100px)  skewX(-15deg);
+}
+#muteButton:after{
+	content: '';
+	display: block;
+	position: absolute;
+	background: rgba(255,255,255,0.2);
+	width: 30px;
+	height: 100px;
+	left: 30px;
+	bottom: 0;
+	opacity: 0;
+	filter: blur(5px);
+	transform: translateX(-100px) skewX(-15deg);
+}
+#muteButton:hover{
+	background: #338033;
+	cursor: pointer;
+}
+#muteButton:hover::before{
+	transform: translateX(300px)  skewX(-15deg);  
+	opacity: 0.6;
+	transition: .7s;
+}
+#muteButton:hover::after{
+	transform: translateX(300px) skewX(-15deg);  
+	opacity: 1;
+	transition: .7s;
 }

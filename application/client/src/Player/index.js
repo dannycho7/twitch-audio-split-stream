@@ -74,7 +74,7 @@ class Player extends React.Component {
 					toggleMute={this.toggleMute}
 					muted={muted}
 				/>
-				<span>{title}</span>
+				<span id="songTitle">Now Playing: {title}</span>
 			</div>
 		);
 	}

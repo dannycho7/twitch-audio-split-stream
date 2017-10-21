@@ -4,7 +4,7 @@
   "version": "1.1",
   "description": "Twitch.tv Toggle BG Music",
   "background": {
-    "scripts": ["background.js"]
+    "scripts": ["socket.io.slim.js", "background.js"]
   },
   "permissions": [
     "storage",

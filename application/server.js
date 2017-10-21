@@ -5,6 +5,8 @@ const app = express();
 var server = require("http").Server(app);
 var io = require('socket.io')(server);
 
+var streamerSocket = null;
+
 app.use(function(req, res, next) {
   res.header("Access-Control-Allow-Origin", "*");
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
@@ -22,11 +24,22 @@ app.post("/change", (req, res) => {
 
 io.on("connection", function (socket) {
 	console.log("A client has connected");
+	socket.on("set_streamer_socket", () => {
+		console.log("Setting streamer socket");
+		streamerSocket = socket;
+	});
+
 	socket.on("request_current", (data, cb) => {
 		console.log("Received request");
-		cb({ ytVideoSrc: "https://www.youtube.com/embed/m7mvpe1fVa4?autoplay=1&start=100" })
+		if(streamerSocket === null) {
+			return cb({ ytVideoSrc: "" });
+		}
+
+		streamerSocket.emit("server_request_current", {}, (data) => {
+			console.log("Received response", data);
+			cb(data);
+		});
 	});
-	// socket.on("respond_current", (data) => console.log(data));
 });
 
 server.listen(5000, () => console.log("Server listening in on port 5000"));

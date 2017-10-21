@@ -1,7 +1,7 @@
 const qs = require("qs");
 
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
-	console.log(window.location.href);
+	console.log(qs.parse(window.location.href));
 });
 
 function getTime() {

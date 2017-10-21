@@ -1,0 +1,24 @@
+{
+  "manifest_version": 2,
+  "name": "Twitch.tv Toggle BG Music",
+  "version": "1.1",
+  "description": "Twitch.tv Toggle BG Music",
+  "background": {
+    "scripts": ["background.js"]
+  },
+  "permissions": [
+    "storage",
+    "tabs",
+    "webNavigation"
+  ],
+  "content_scripts": [
+    {
+      "matches": ["*://*.youtube.com/*"],
+      "js": ["scrape_video.js"],
+      "run_at": "document_start"
+    }
+  ],
+  "browser_action": {
+    "default_title": "Twitch.tv Toggle BG Music"
+  }
+}

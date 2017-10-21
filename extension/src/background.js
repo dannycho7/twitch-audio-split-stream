@@ -19,13 +19,15 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
 	xhttp.addEventListener("load", () => {});
 	xhttp.open("POST", "http://localhost:5000/change");
 	xhttp.setRequestHeader("Content-Type", "application/json");
-	xhttp.send(JSON.stringify({ "ytVideoSrc": message["ytVideoSrc"] }))
+	xhttp.send(JSON.stringify(message))
 });
 
 var socket = io('http://localhost:5000');
 socket.on('connect', function(){ socket.emit("set_streamer_socket") });
 socket.on('server_request_current', function(data, cb){
 	console.log("Server received request for current song");
-	chrome.tabs.sendMessage(ytTabId, { type: "current" }, cb);
+	if(ytTabId) {
+		chrome.tabs.sendMessage(ytTabId, { type: "current" }, cb);
+	}
 });
 socket.on('disconnect', function(){});

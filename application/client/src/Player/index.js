@@ -9,7 +9,8 @@ class Player extends React.Component {
 		this.state = {
 			muted: false,
 			ytVideoSrc: null,
-			socket: null
+			socket: null,
+			title: ""
 		};
 
 		this.toggleMute = this.toggleMute.bind(this);
@@ -22,15 +23,15 @@ class Player extends React.Component {
 		socket.on("connect", () => console.log("Socket connected"));
 		socket.on("changeSong", (data) => {
 			if(!this.state.muted) {
-				let { ytVideoSrc } = data;
-				this.setState({ ytVideoSrc });
+				let { ytVideoSrc, title } = data;
+				this.setState({ ytVideoSrc, title });
 			}
 		});
 	}
 
 	toggleMute() {
 		let { muted } = this.state;
-		this.setState({ muted: !this.state.muted, ytVideoSrc: "" });
+		this.setState({ muted: !this.state.muted, ytVideoSrc: "", title: "" });
 		if(muted) {
 			this.updateytSrc();
 		}
@@ -39,14 +40,14 @@ class Player extends React.Component {
 	updateytSrc() {
 		this.state.socket.emit("request_current", {}, (data) => {
 			if(data) {
-				let { ytVideoSrc } = data;
-				this.setState({ ytVideoSrc });
+				let { ytVideoSrc, title } = data;
+				this.setState({ ytVideoSrc, title });
 			}
 		});
 	}
 
 	render() {
-		let { ytVideoSrc, muted } = this.state;
+		let { ytVideoSrc, muted, title } = this.state;
 
 		if(muted) {
 			return (
@@ -73,6 +74,7 @@ class Player extends React.Component {
 					toggleMute={this.toggleMute}
 					muted={muted}
 				/>
+				<span>{title}</span>
 			</div>
 		);
 	}

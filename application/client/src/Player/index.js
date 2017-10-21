@@ -38,8 +38,10 @@ class Player extends React.Component {
 
 	updateytSrc() {
 		this.state.socket.emit("request_current", {}, (data) => {
-			let { ytVideoSrc } = data;
-			this.setState({ ytVideoSrc });
+			if(data) {
+				let { ytVideoSrc } = data;
+				this.setState({ ytVideoSrc });
+			}
 		});
 	}
 

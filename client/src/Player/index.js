@@ -22,7 +22,6 @@ class Player extends React.Component {
 		socket.on("connect", () => console.log("Socket connected"));
 		socket.on("changeSong", (data) => {
 			let { ytVideoSrc } = data;
-			
 			this.setState({ ytVideoSrc });
 		});
 	}

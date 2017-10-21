@@ -1,5 +1,6 @@
 import React from "react";
 import ToggleMuteButton from "./ToggleMuteButton";
+import io from "socket.io-client";
 
 class Player extends React.Component {
 	constructor() {
@@ -7,11 +8,23 @@ class Player extends React.Component {
 
 		this.state = {
 			muted: false,
-			ytVideoSrc: "https://www.youtube.com/embed/m7mvpe1fVa4?autoplay=1"
+			ytVideoSrc: "https://www.youtube.com/embed/m7mvpe1fVa4?autoplay=1",
+			socket: null
 		};
 
 		this.toggleMute = this.toggleMute.bind(this);
 		this.updateytSrc = this.updateytSrc.bind(this);
+	}
+
+	componentDidMount() {
+		var socket = io("/");
+		this.setState({ socket });
+		socket.on("connect", () => console.log("Socket connected"));
+		socket.on("changeSong", (data) => {
+			let { ytVideoSrc } = data;
+			
+			this.setState({ ytVideoSrc });
+		});
 	}
 
 	toggleMute() {

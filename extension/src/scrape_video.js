@@ -20,5 +20,5 @@ chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
 });
 
 function getTime() {
-	return document.getElementsByClassName("video-stream")[0].currentTime;
+	return Math.floor(document.getElementsByClassName("video-stream")[0].currentTime);
 }

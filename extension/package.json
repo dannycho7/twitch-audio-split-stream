@@ -5,15 +5,13 @@
   "main": "background.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "browserify ./src/scrape_video -o ./src/output/scrape_bundle.js",
-    "build:watch": "watchify ./src/scrape_video -o ./src/output/scrape_bundle.js"
+    "build": "browserify ./src/scrape_video.js -o ./src/output/scrape_bundle.js"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "browserify": "^14.5.0",
-    "qs": "^6.5.1",
-    "watchify": "^3.9.0"
+    "url-parse": "^1.1.9"
   }
 }

@@ -1,7 +1,17 @@
-const qs = require("qs");
+const parse = require("url-parse");
 
 chrome.runtime.onMessage.addListener(function(message, sender, sendResponse){
-	console.log(qs.parse(window.location.href));
+	let url = parse(window.location.href, true);
+
+	if(url.query["v"]) {
+		let embed_url = `https://www.youtube.com/embed/${url.query["v"]}` +
+						`?autoplay=1&start=${url.query["t"] || 0}`;
+
+		chrome.runtime.sendMessage({ embed_url }, function(response) {
+			
+		});
+	}
+	
 });
 
 function getTime() {

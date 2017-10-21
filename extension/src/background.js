@@ -9,3 +9,12 @@ chrome.webNavigation.onHistoryStateUpdated.addListener(function(details){
 		});
 	}
 });
+
+chrome.runtime.onMessage.addListener(function(message, sender, sendResponse) {
+	console.log("Received message");
+	let xhttp = new XMLHttpRequest();
+	xhttp.addEventListener("load", () => {});
+	xhttp.open("POST", "http://localhost:5000/change");
+	xhttp.setRequestHeader("Content-Type", "application/json");
+	xhttp.send(JSON.stringify({ "ytVideoSrc": message["embed_url"] }))
+});

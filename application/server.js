@@ -1,3 +1,5 @@
+require("dotenv").config();
+
 const path = require("path");
 const bodyParser = require("body-parser");
 const express = require("express");
@@ -17,8 +19,23 @@ app.use(function(req, res, next) {
 app.use(express.static(path.join(__dirname, "static")));
 app.use(bodyParser.json());
 
-function getTitle(id) {
+function parseTitleFromBody(body) {
+	try {
+		let title = body["items"][0]["snippet"]["title"];
+		return title;
+	}
+	catch(err) {
+		return "";
+	}
+}
 
+function getTitle(id) {
+	return new Promise((res, rej) => {
+		let url = `https://www.googleapis.com/youtube/v3/videos?id=${id}&key=${process.env.YT_API_KEY}&part=snippet`;
+		request(url, (err, response, body) => {
+			return res(parseTitleFromBody(JSON.parse(body)));
+		});
+	});
 }
 
 app.post("/change", (req, res) => {
@@ -46,10 +63,12 @@ io.on("connection", function (socket) {
 
 		streamerSocket.emit("server_request_current", {}, (data) => {
 			console.log("Received response", data);
-			getTitle(id)
-			.then((title) => {
-				cb({ ytVideoSrc: data["ytVideoSrc"], title });
-			});
+			if(data) {
+				getTitle(data["id"])
+				.then((title) => {
+					cb({ ytVideoSrc: data["ytVideoSrc"], title });
+				});
+			}
 		});
 	});
 });

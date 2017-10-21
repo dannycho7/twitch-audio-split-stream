@@ -1,6 +1,7 @@
 const path = require("path");
 const bodyParser = require("body-parser");
 const express = require("express");
+const request = require("request");
 const app = express();
 var server = require("http").Server(app);
 var io = require('socket.io')(server);
@@ -16,10 +17,18 @@ app.use(function(req, res, next) {
 app.use(express.static(path.join(__dirname, "static")));
 app.use(bodyParser.json());
 
+function getTitle(id) {
+
+}
+
 app.post("/change", (req, res) => {
-	const { ytVideoSrc } = req.body;
-	io.sockets.emit("changeSong", { ytVideoSrc });
-	res.end();
+	const { ytVideoSrc, id } = req.body;
+
+	getTitle(id)
+	.then((title) => {
+		io.sockets.emit("changeSong", { ytVideoSrc, title });
+		res.end();
+	})
 });
 
 io.on("connection", function (socket) {
@@ -32,12 +41,15 @@ io.on("connection", function (socket) {
 	socket.on("request_current", (data, cb) => {
 		console.log("Received request");
 		if(streamerSocket === null) {
-			return cb({ ytVideoSrc: "" });
+			return cb({ ytVideoSrc: "", title: "" });
 		}
 
 		streamerSocket.emit("server_request_current", {}, (data) => {
 			console.log("Received response", data);
-			cb(data);
+			getTitle(id)
+			.then((title) => {
+				cb({ ytVideoSrc: data["ytVideoSrc"], title });
+			});
 		});
 	});
 });
